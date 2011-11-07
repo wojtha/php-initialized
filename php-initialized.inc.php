@@ -170,7 +170,9 @@ function check_variables($filename, $initialized = array(), $function = "", $cla
 					$parameters[] = ($parameter->isPassedByReference() ? '$' . $parameter->getName() : '');
 				}
 				$function_calls[] = $parameters;
-			} else {
+			} elseif ($class_name == 'parent') {
+			  // TODO?
+		  } else {
 				if ($class_name) {
 					while ($class_name && empty($function_parameters["$class_name::$name"])) {
 						$class_name = $extends[$class_name];
