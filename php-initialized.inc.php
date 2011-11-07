@@ -38,7 +38,7 @@ function check_variables($filename, $initialized = array(), $function = "", $cla
 		$token = $tokens[$i];
 		//~ echo (is_array($token) ? token_name($token[0]) . "\t" . trim($token[1]) : "\t$token") . "\n";
 		//~ continue;
-		
+
 		if ($token === ')' || $token === ';' || $token === ',') {
 			while ($shortcircuit && end($shortcircuit) >= count($function_calls)) {
 				array_pop($shortcircuit);
@@ -47,7 +47,7 @@ function check_variables($filename, $initialized = array(), $function = "", $cla
 				$initialized[$key] = true; // confirm assignment
 			}
 		}
-		
+
 		// variables
 		if ($token[0] === T_VARIABLE) {
 			$variable = $token[1];
@@ -80,7 +80,7 @@ function check_variables($filename, $initialized = array(), $function = "", $cla
 			}
 		} elseif ($token[0] === T_LIST || $token[0] === T_UNSET) {
 			$in_list = true;
-		
+
 		// foreach
 		} elseif ($token[0] === T_AS) {
 			$locals = array();
@@ -92,7 +92,7 @@ function check_variables($filename, $initialized = array(), $function = "", $cla
 			} while ($tokens[$i] !== ')');
 			array_pop($function_calls);
 			$i = check_variables($filename, $initialized + $locals, $function, $class, $in_string, $tokens, $i+1, count($function_calls));
-		
+
 		// catch
 		} elseif ($token[0] === T_CATCH) {
 			$locals = array();
@@ -104,7 +104,7 @@ function check_variables($filename, $initialized = array(), $function = "", $cla
 			} while ($tokens[$i+1] !== '{');
 			array_pop($function_calls);
 			$i = check_variables($filename, $initialized + $locals, $function, $class, $in_string, $tokens, $i+2);
-		
+
 		// global
 		} elseif ($token[0] === T_GLOBAL && $function) {
 			do {
@@ -113,7 +113,7 @@ function check_variables($filename, $initialized = array(), $function = "", $cla
 					$function_globals[$function][$tokens[$i][1]] = false;
 				}
 			} while ($tokens[$i] !== ';');
-		
+
 		// static
 		} elseif ($token[0] === T_STATIC && $tokens[$i+1][0] !== T_FUNCTION && $tokens[$i+2][0] !== T_FUNCTION) {
 			do {
@@ -122,7 +122,7 @@ function check_variables($filename, $initialized = array(), $function = "", $cla
 					$initialized[$tokens[$i][1]] = true;
 				}
 			} while ($tokens[$i] !== ';');
-		
+
 		// function definition
 		} elseif ($token[0] === T_FUNCTION) {
 			if (in_array(T_ABSTRACT, array($tokens[$i-1][0], $tokens[max(0, $i-2)][0], $tokens[max(0, $i-3)][0]), true)) {
@@ -148,7 +148,7 @@ function check_variables($filename, $initialized = array(), $function = "", $cla
 				} while ($tokens[$i+1] !== '{');
 				$i = check_variables($filename, $locals, $name, ($function ? "" : $class), $in_string, $tokens, $i+2);
 			}
-		
+
 		// function call
 		} elseif ($token[0] === T_STRING && $tokens[$i+1] === '(') {
 			$name = $token[1];
@@ -188,11 +188,11 @@ function check_variables($filename, $initialized = array(), $function = "", $cla
 					}
 				}
 			}
-		
+
 		// strings
 		} elseif ($token === '"') {
 			$in_string = !$in_string;
-		
+
 		// constants
 		} elseif (!$in_string && $token[0] === T_STRING && !in_array($tokens[$i-1][0], array(T_OBJECT_OPERATOR, T_NEW, T_INSTANCEOF), true) && $tokens[$i+1][0] !== T_DOUBLE_COLON) { // not properties and classes
 			$name = $token[1];
@@ -208,7 +208,7 @@ function check_variables($filename, $initialized = array(), $function = "", $cla
 					}
 				}
 			}
-		
+
 		// class
 		} elseif ($token[0] === T_CLASS) {
 			$i++;
@@ -224,7 +224,7 @@ function check_variables($filename, $initialized = array(), $function = "", $cla
 			do {
 				$i++;
 			} while ($tokens[$i] !== ';');
-		
+
 		// include
 		} elseif (in_array($token[0], array(T_INCLUDE, T_REQUIRE, T_INCLUDE_ONCE, T_REQUIRE_ONCE), true)) {
 			//! respect include()
@@ -249,17 +249,17 @@ function check_variables($filename, $initialized = array(), $function = "", $cla
 				}
 				$initialized += check_variables($path . $include, $initialized, $function, $class);
 			}
-		
+
 		// interface
 		} elseif ($token[0] === T_INTERFACE) {
 			while ($tokens[$i+1] !== '}') {
 				$i++;
 			}
-		
+
 		// halt_compiler
 		} elseif ($token[0] === T_HALT_COMPILER) {
 			return $initialized;
-		
+
 		// blocks
 		} elseif ($token === '(') {
 			$function_calls[] = array();
@@ -267,7 +267,7 @@ function check_variables($filename, $initialized = array(), $function = "", $cla
 			$in_list = false;
 			array_pop($function_calls);
 		} elseif ($token === ',' && $function_calls) {
-			if ($function_calls[count($function_calls) - 1][0] !== '$...') {
+			if (isset($function_calls[count($function_calls) - 1][0]) && $function_calls[count($function_calls) - 1][0] !== '$...') {
 				array_shift($function_calls[count($function_calls) - 1]);
 			}
 		} elseif ($token === '{' || $token[0] === T_CURLY_OPEN || $token[0] === T_DOLLAR_OPEN_CURLY_BRACES) {
@@ -281,7 +281,7 @@ function check_variables($filename, $initialized = array(), $function = "", $cla
 		} elseif (in_array($token[0], array(T_LOGICAL_OR, T_BOOLEAN_OR, T_LOGICAL_AND, T_BOOLEAN_AND), true) || $token === '?') {
 			$shortcircuit[] = count($function_calls);
 		}
-		
+
 		if (count($function_calls) === $single_command && ($token === '{' || $token === ';') && !in_array($tokens[$i+1][0], array(T_ELSE, T_ELSEIF, T_CATCH), true)) {
 			return $i;
 		}
