@@ -175,7 +175,13 @@ function check_variables($filename, $initialized = array(), $function = "", $cla
 		  } else {
 				if ($class_name) {
 					while ($class_name && empty($function_parameters["$class_name::$name"])) {
-						$class_name = $extends[$class_name];
+					  // TODO: missing super class
+					  if (isset($extends[$class_name])) {
+					    $class_name = $extends[$class_name];
+					  }
+					  else {
+					    $class_name = '';
+					  }
 					}
 					$name = "$class_name::$name";
 				}
