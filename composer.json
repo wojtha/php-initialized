@@ -1,0 +1,17 @@
+{
+  "name": "php-initialized",
+  "description": "Fork of the php-initialized tool by Jakub Vrana, licensed under Apache License 2.0",
+  "homepage": "http://code.google.com/p/php-initialized/",
+  "type": "project",
+  "license": ["Apache-2.0"],
+  "authors": [
+    {
+      "name": "Jakub Vrána",
+      "homepage": "http://www.vrana.cz/"
+    },
+    {
+      "name": "Vojtěch Kusý",
+      "homepage": "http://www.vojtechkusy.com/"
+    }
+  ]
+}
