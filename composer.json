@@ -1,16 +1,20 @@
 {
   "name": "jakubvrana/php-initialized",
-  "description": "Fork of the php-initialized tool by Jakub Vrana, licensed under Apache License 2.0",
-  "homepage": "http://code.google.com/p/php-initialized/",
-  "license": ["Apache-2.0"],
+  "description": "Tool for check of uninitialized variables",
+  "license": "Apache-2.0",
   "authors": [
     {
       "name": "Jakub Vrána",
-      "homepage": "http://www.vrana.cz/"
+      "email": "jakub@vrana.cz",
+      "homepage": "http://wvrana.cz"
     },
     {
       "name": "Vojtěch Kusý",
-      "homepage": "http://www.vojtechkusy.com/"
+      "homepage": "http://www.vojtechkusy.com"
     }
-  ]
+  ],
+  "minimum-stability": "stable",
+  "require": {
+
+  }
 }
