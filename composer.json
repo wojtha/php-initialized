@@ -1,8 +1,7 @@
 {
-  "name": "php-initialized",
+  "name": "jakubvrana/php-initialized",
   "description": "Fork of the php-initialized tool by Jakub Vrana, licensed under Apache License 2.0",
   "homepage": "http://code.google.com/p/php-initialized/",
-  "type": "project",
   "version": "1.0.0",
   "license": ["Apache-2.0"],
   "authors": [
