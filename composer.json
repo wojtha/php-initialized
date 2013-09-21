@@ -12,9 +12,5 @@
       "name": "Vojtěch Kusý",
       "homepage": "http://www.vojtechkusy.com"
     }
-  ],
-  "minimum-stability": "stable",
-  "require": {
-
-  }
+  ]
 }
