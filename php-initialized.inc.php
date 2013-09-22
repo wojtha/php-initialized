@@ -255,6 +255,7 @@ function check_variables($filename, $initialized = array(), $function = "", $cla
 			while ($tokens[$i+1] !== '}') {
 				$i++;
 			}
+			$i++;
 
 		// halt_compiler
 		} elseif ($token[0] === T_HALT_COMPILER) {
