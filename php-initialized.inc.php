@@ -173,7 +173,7 @@ function check_variables($filename, $initialized = array(), $function = "", $cla
 			} else {
 				if ($class_name) {
 					while ($class_name && empty($function_parameters["$class_name::$name"])) {
-						$class_name = $extends[$class_name];
+						$class_name = isset($extends[$class_name]) ? $extends[$class_name] : null;
 					}
 					$name = "$class_name::$name";
 				}
@@ -232,7 +232,7 @@ function check_variables($filename, $initialized = array(), $function = "", $cla
 			if ($tokens[$i+1][0] === T_STRING && !strcasecmp($tokens[$i+1][1], "dirname") && $tokens[$i+2] === '(' && $tokens[$i+3][0] === T_FILE && $tokens[$i+4] === ')' && $tokens[$i+5] === '.') {
 				$path = dirname($filename);
 				$i += 5;
-			} elseif (!strcasecmp($tokens[$i+1][1], "__DIR__") && $tokens[$i+2] === '.') {
+			} elseif (isset($tokens[$i+1][1]) && !strcasecmp($tokens[$i+1][1], "__DIR__") && $tokens[$i+2] === '.') {
 				$path = dirname($filename);
 				$i += 2;
 			}
