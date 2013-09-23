@@ -1,0 +1,19 @@
+{
+  "name": "jakubvrana/php-initialized",
+  "description": "Tool for check of uninitialized variables",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Jakub Vrána",
+      "email": "jakub@vrana.cz",
+      "homepage": "http://wvrana.cz"
+    },
+    {
+      "name": "Vojtěch Kusý",
+      "homepage": "http://www.vojtechkusy.com"
+    }
+  ],
+  "autoload": {
+      "files": ["php-initialized.inc.php"]
+  }
+}
